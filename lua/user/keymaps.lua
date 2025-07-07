@@ -24,6 +24,11 @@ keymap("n", "<C-h>", "<C-w>h", opts)
 keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
+keymap("v", "<C-h>", "<C-w>h", opts)
+keymap("v", "<C-j>", "<C-w>j", opts)
+keymap("v", "<C-k>", "<C-w>k", opts)
+keymap("v", "<C-l>", "<C-w>l", opts)
+
 
 keymap("n", "<leader>e", ":Lex 30<cr>", opts)
 
@@ -40,8 +45,8 @@ keymap("n", "<A-Left>", ":vertical resize -2<CR>", opts)
 keymap("n", "<A-Right>", ":vertical resize +2<CR>", opts)
 
 -- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprev<CR>", opts)
+keymap("n", "<S-l>", ":BufferLineCycleNext<CR>", opts)
+keymap("n", "<S-h>", ":BufferLineCyclePrev<CR>", opts)
 keymap("n", "<Leader>w", ":bdelete<CR>", opts)
 keymap("n", "<Leader>s", ":w<CR>", opts)
 
@@ -67,17 +72,17 @@ keymap("t", "<A-j>", "<C-\\><C-n><C-w>j", term_opts)
 keymap("t", "<A-k>", "<C-\\><C-n><C-w>k", term_opts)
 keymap("t", "<A-l>", "<C-\\><C-n><C-w>l", term_opts)
 
-keymap("n", ",r",
-       ":w<CR>:silent !/Applications/Skim.app/Contents/SharedSupport/displayline <C-r>=line('.')<CR> build/%:r.pdf <CR><R>",
-       term_opts)
-
-keymap("i", "<C-s>", "<Esc>mm[sz=1<CR>`mA", term_opts)
-keymap("n", "<C-s>", "mm[sz=1<CR>`m", term_opts)
+-- keymap("i", "<C-s>", "<Esc>mm[sz=1<CR>`mA", term_opts)
+-- keymap("n", "<C-s>", "mm[sz=1<CR>`m", term_opts)
 vim.api.nvim_command([[
   autocmd InsertEnter * set timeoutlen=150
   autocmd InsertLeave * set timeoutlen=1000
 ]])
 keymap("i", "jk", "<Esc>", term_opts)
-keymap("i", "Jk", "<Esc>", term_opts)
 keymap("i", "kj", "<Esc>", term_opts)
+keymap("i", "Jk", "<Esc>", term_opts)
 keymap("i", "Kj", "<Esc>", term_opts)
+keymap("i", "jK", "<Esc>", term_opts)
+keymap("i", "kJ", "<Esc>", term_opts)
+keymap("i", "JK", "<Esc>", term_opts)
+keymap("i", "KJ", "<Esc>", term_opts)

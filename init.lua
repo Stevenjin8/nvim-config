@@ -11,4 +11,7 @@ require "user.neovide"
 require "user.keymaps"
 require "user.diffview"
 require "user.git"
--- require "user.markdown-preview"
+require "user.copilot"
+require "user.markdown-preview"
+require "user.mini"
+

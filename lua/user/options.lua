@@ -55,7 +55,7 @@ vim.opt.wrap = false
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
 -- the font used in graphical neovim applications
-vim.opt.guifont = "menlo:h21"
+vim.opt.guifont = "menlo=h21"
 
 vim.opt.whichwrap = ""
 -- use system clipboard
@@ -64,8 +64,12 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.fileencodings = "utf-8"
 -- folding
 vim.o.foldlevelstart = 1000
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldmethod = "expr"
+vim.opt.foldenable = true
+
+vim.opt.listchars = { tab = "  ", trail = "·", nbsp = " " }
+vim.opt.list = true
 
 -- texconceal
 vim.opt.conceallevel = 2

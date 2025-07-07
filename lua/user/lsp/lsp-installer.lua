@@ -5,12 +5,18 @@ local opts = { noremap = true, silent = true }
 
 
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
     -- Enable completion triggered by <c-x><c-o>
-    -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     -- Mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions
+    if client.server_capabilities.inlayHintProvider then
+        vim.lsp.inlay_hint.enable()
+    end
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', "<space>i", function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    end)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
@@ -36,13 +42,13 @@ lspconfig.texlab.setup {
 }
 
 lspconfig.helm_ls.setup {
-  settings = {
-    ['helm-ls'] = {
-      yamlls = {
-        path = "yaml-language-server",
-      }
+    settings = {
+        ['helm-ls'] = {
+            yamlls = {
+                path = "yaml-language-server",
+            }
+        }
     }
-  }
 }
 
 lspconfig.lua_ls.setup {
@@ -81,7 +87,7 @@ lspconfig.clangd.setup({
     -- cmd = {"/home/sj/source/clangd_18.1.3/bin/clangd"},
     on_attach = on_attach,
     settings = { CompileFlags = { std = "cpp14", compiler = "clang" } },
-    filetypes = {"h", "hpp", "cpp", "cc", "c"}
+    filetypes = { "h", "hpp", "cpp", "cc", "c" }
 })
 
 lspconfig.gopls.setup {
@@ -95,6 +101,34 @@ lspconfig.bashls.setup {
 lspconfig.rust_analyzer.setup({
     on_attach = on_attach,
     settings = {
-        ["rust-analyzer"] = {}
+        ["rust-analyzer"] = {
+            imports = {
+                granularity = {
+                    group = "module",
+                },
+                prefix = "self",
+            },
+            cargo = {
+                allFeatures = true,
+                buildScripts = {
+                    enable = true,
+                    rebuildOnSave = false,
+                },
+            },
+            procMacro = {
+                enable = true
+            },
+            inlayHints = {
+                enable = true,
+                typeHints = true,
+                parameterHints = true,
+                chainingHints = true,
+                maxLength = 40,
+            },
+            checkOnSave = {
+                allTargets = true,
+                command = "clippy",
+            },
+        }
     }
 })

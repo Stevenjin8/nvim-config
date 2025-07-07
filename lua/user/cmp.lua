@@ -35,14 +35,13 @@ cmp.setup({
         end, { "i", "s" }),
         -- Supertab
         ["<Tab>"] = cmp.mapping(function(fallback)
-            -- Jumping is good for tex, but not so usefule when coding.
+            -- Jumping is good for tex, but not so useful when coding.
             -- if luasnip.expandable() then
             --     luasnip.expand()
             -- elseif luasnip.jumpable() then
             --     luasnip.jump(1)
             if cmp.visible() and not cmp.get_active_entry() then
-                cmp.select_next_item()
-                cmp.select_prev_item()
+                cmp.select_next_item({ count = 0 })
             elseif cmp.visible() then
                 cmp.select_next_item()
             else
@@ -73,4 +72,10 @@ cmp.setup({
     },
     sources = { { name = "luasnip" }, { name = "nvim_lsp" }, { name = "path" } },
     matching = { disallow_fuzzy_matching = false },
+    completion = {
+        autocomplete = {
+            cmp.TriggerEvent.TextChanged,
+            cmp.TriggerEvent.InsertEnter,
+        },
+    },
 })
