@@ -1,4 +1,3 @@
-local lspconfig = require("lspconfig")
 local util = require("lspconfig.util")
 
 local opts = { noremap = true, silent = true }
@@ -17,31 +16,43 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', "<space>i", function()
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end)
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
+    -- vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+    -- vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
-    vim.keymap.set('n', '<space>k', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+    -- vim.keymap.set('n', '<space>k', vim.lsp.buf.signature_help, bufopts)
+    -- vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
     vim.keymap.set({ 'i', 'n' }, '<space>fs', vim.lsp.buf.signature_help, bufopts)
-    vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
+    -- vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
     vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
+    -- vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, bufopts)
     vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, bufopts)
     vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, bufopts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
     vim.keymap.set('n', '<space>fm', function() vim.lsp.buf.format { async = false, timeout_ms = 1000 } end, bufopts)
     vim.keymap.set('n', '<space>de', vim.diagnostic.open_float, opts)
     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
-    vim.keymap.set('n', '<space>dq', vim.diagnostic.setloclist, opts)
+    -- vim.keymap.set('n', '<space>dq', vim.diagnostic.setloclist, opts)
+    vim.lsp.inline_completion.enable(true)
+    vim.keymap.set('i', '<M-l>', function()
+        if not vim.lsp.inline_completion.get() then
+            return '<M-l>'
+        end
+    end, {
+        expr = true,
+        replace_keycodes = true,
+        desc = 'Get the current inline completion',
+    })
 end
 
-lspconfig.texlab.setup {
+
+vim.lsp.config("texlab", {
     on_attach = on_attach,
     root_dir = util.root_pattern('.git', '.latexmkrc', ".texlabroot", "texlabroot", "Tectonic.toml"),
-}
+})
+vim.lsp.enable("texlab")
 
-lspconfig.helm_ls.setup {
+vim.lsp.config("helm_ls", {
     settings = {
         ['helm-ls'] = {
             yamlls = {
@@ -49,9 +60,10 @@ lspconfig.helm_ls.setup {
             }
         }
     }
-}
+})
+vim.lsp.enable("helm_ls")
 
-lspconfig.lua_ls.setup {
+vim.lsp.config("lua_ls", {
     on_attach = on_attach,
     settings = {
         Lua = {
@@ -70,9 +82,10 @@ lspconfig.lua_ls.setup {
             },
         },
     },
-}
+})
+vim.lsp.enable("lua_ls")
 
-lspconfig.pyright.setup({
+vim.lsp.config("pyright", {
     on_attach = on_attach,
     settings = {
         python = {
@@ -82,23 +95,47 @@ lspconfig.pyright.setup({
         },
     },
 })
+vim.lsp.enable("pyright")
 
-lspconfig.clangd.setup({
+
+vim.lsp.config("clangd", {
     -- cmd = {"/home/sj/source/clangd_18.1.3/bin/clangd"},
     on_attach = on_attach,
     settings = { CompileFlags = { std = "cpp14", compiler = "clang" } },
     filetypes = { "h", "hpp", "cpp", "cc", "c" }
 })
+vim.lsp.enable("clangd")
 
-lspconfig.gopls.setup {
+vim.lsp.config("gopls", {
     on_attach = on_attach,
-}
+})
+vim.lsp.enable("gopls")
 
-lspconfig.bashls.setup {
+vim.lsp.config("bashls", {
     on_attach = on_attach,
-}
+    filetypes = { "sh", "zsh", "bash" },
+})
+vim.lsp.enable("bashls")
 
-lspconfig.rust_analyzer.setup({
+vim.lsp.config("copilot", {
+    cmd = { "copilot-language-server", "--stdio" },
+    -- filetypes = { "*" },
+    root_markers = { ".git" }, -- optional
+    capabilities = vim.lsp.protocol.make_client_capabilities(),
+
+    settings = {
+        telemetry = {
+            telemetryLevel = "none",
+        }
+    },
+
+    on_attach = on_attach,
+    -- filetypes = { ["*"] = true },
+})
+vim.lsp.enable("copilot")
+print("hi")
+
+vim.lsp.config("rust_analyzer", {
     on_attach = on_attach,
     settings = {
         ["rust-analyzer"] = {
@@ -132,3 +169,4 @@ lspconfig.rust_analyzer.setup({
         }
     }
 })
+vim.lsp.enable("rust_analyzer")

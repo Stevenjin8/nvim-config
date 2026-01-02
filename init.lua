@@ -1,3 +1,4 @@
+vim.deprecate = function() end
 require "user.plugins"
 require "user.options"
 require "user.null"
@@ -6,12 +7,10 @@ require "user.lsp"
 require "user.snippets"
 require "user.treesitter"
 require "user.telescope"
-require "user.line"
 require "user.neovide"
 require "user.keymaps"
 require "user.diffview"
 require "user.git"
+require "user.noice"
 require "user.copilot"
-require "user.markdown-preview"
 require "user.mini"
-

@@ -78,29 +78,31 @@ vim.api.nvim_set_hl(0, "Conceal", { ctermfg = nil, guitermbg = nil })
 -- vimtex options
 vim.g.vimtex_compiler_method = "latexmk"
 vim.g.tex_flavor = "latex"
-vim.g.vimtex_view_method = "skim"
-vim.g.vimtex_quickfix_mode = 0
-vim.g.vimtex_indent_on_ampersands = 0
-vim.g.vimtex_view_skim_sync = 1
-vim.g.vimtex_view_skim_activate = 1
-vim.g.vimtex_compiler_latexmk = {
-    -- I think there was a breaking change where build_dir became out_dir
-    --build_dir = "./build",
-    out_dir = "./build",
-    callback = 1,
-    continuous = 1,
-    executable = "latexmk",
-    options = {
-        "-verbose",
-        "-file-line-error",
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-output-directory=build",
-    },
-}
+-- vim.g.vimtex_view_method = "skim"
+-- vim.g.vimtex_quickfix_mode = 0
+-- vim.g.vimtex_indent_on_ampersands = 0
+-- vim.g.vimtex_view_skim_sync = 1
+-- vim.g.vimtex_view_skim_activate = 1
+-- vim.g.vimtex_compiler_latexmk = {
+--     -- I think there was a breaking change where build_dir became out_dir
+--     --build_dir = "./build",
+--     out_dir = "./build",
+--     callback = 1,
+--     continuous = 1,
+--     executable = "latexmk",
+--     options = {
+--         "-verbose",
+--         "-file-line-error",
+--         "-synctex=1",
+--         "-interaction=nonstopmode",
+--         "-output-directory=build",
+--     },
+-- }
 
 -- spelling
 vim.opt.spell = true
 vim.opt.spelllang = "en_us,en_ca,es"
 
 -- color
+vim.api.nvim_set_hl(0, 'NormalFloat', {link = 'Normal'})
+vim.api.nvim_set_hl(0, 'SnacksPickerBox', {link = 'Normal'})

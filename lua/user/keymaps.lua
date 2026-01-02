@@ -30,7 +30,7 @@ keymap("v", "<C-k>", "<C-w>k", opts)
 keymap("v", "<C-l>", "<C-w>l", opts)
 
 
-keymap("n", "<leader>e", ":Lex 30<cr>", opts)
+-- keymap("n", "<leader>e", ":Lex 30<cr>", opts)
 
 -- Shouldn't use arrows to navigate
 keymap("i", "<Up>", "", opts)

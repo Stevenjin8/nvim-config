@@ -16,9 +16,6 @@ require('mini.surround').setup(
             ['d'] = { input = { { '%b()', '%b[]', '%b{}', '%b<>', '%b\'\'', '%b\"\"', '%b``' }, '^.().*().$', }, output = { left = '(', right = ')' } },
             ['B'] = { input = { '%b{}', '^.%s*().-()%s*.$' }, output = { left = '{ ', right = ' }' } },
         },
-
-
     }
-
 )
 require('mini.tabline').setup({})
