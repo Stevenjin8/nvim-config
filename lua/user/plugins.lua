@@ -36,14 +36,18 @@ local plugins = {
     "farmergreg/vim-lastplace",
     "ruifm/gitlinker.nvim",
 
-    "nvim-treesitter/nvim-treesitter",
+    {
+        "nvim-treesitter/nvim-treesitter",
+        branch = "main",
+        lazy = false,
+        build = ":TSUpdate",
+    },
     "nvim-lualine/lualine.nvim",
 
     "sindrets/diffview.nvim",
     "lewis6991/gitsigns.nvim",
     "towolf/vim-helm",
     "nvim-treesitter/nvim-treesitter-context",
-    'MeanderingProgrammer/render-markdown.nvim',
     {
         "nvim-tree/nvim-web-devicons",
         lazy = true
@@ -264,7 +268,7 @@ local plugins = {
                 end,
                 expr = true,
             },
-                desc = "Goto/Apply Next Edit Suggestion",
+            desc = "Goto/Apply Next Edit Suggestion",
             {
                 "<c-.>",
                 function() require("sidekick.cli").toggle() end,

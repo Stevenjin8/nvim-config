@@ -97,6 +97,15 @@ vim.lsp.config("pyright", {
 })
 vim.lsp.enable("pyright")
 
+vim.lsp.config('ruff', {
+  init_options = {
+    settings = {
+      -- Ruff language server settings go here
+    }
+  }
+})
+
+vim.lsp.enable('ruff')
 
 vim.lsp.config("clangd", {
     -- cmd = {"/home/sj/source/clangd_18.1.3/bin/clangd"},
@@ -108,6 +117,11 @@ vim.lsp.enable("clangd")
 
 vim.lsp.config("gopls", {
     on_attach = on_attach,
+    settings = {
+        gopls = {
+            buildFlags = { "-tags=integ" },
+        }
+    },
 })
 vim.lsp.enable("gopls")
 
@@ -133,7 +147,6 @@ vim.lsp.config("copilot", {
     -- filetypes = { ["*"] = true },
 })
 vim.lsp.enable("copilot")
-print("hi")
 
 vim.lsp.config("rust_analyzer", {
     on_attach = on_attach,
@@ -146,12 +159,25 @@ vim.lsp.config("rust_analyzer", {
                 prefix = "self",
             },
             cargo = {
-                allFeatures = true,
+                target = "x86_64-unknown-linux-musl",
                 buildScripts = {
                     enable = true,
                     rebuildOnSave = false,
                 },
+                extraEnv = {
+                    LIBSECCOMP_LINK_TYPE = "static",
+                    LIBSECCOMP_LIB_PATH = "/home/sj/kata/libseccomp/lib",
+                },
             },
+            check = {
+                command = "clippy",
+                allTargets = true,
+                extraEnv = {
+                    LIBSECCOMP_LINK_TYPE = "static",
+                    LIBSECCOMP_LIB_PATH = "/home/sj/kata/libseccomp/lib",
+                },
+            },
+            checkOnSave = true,
             procMacro = {
                 enable = true
             },
@@ -162,11 +188,22 @@ vim.lsp.config("rust_analyzer", {
                 chainingHints = true,
                 maxLength = 40,
             },
-            checkOnSave = {
-                allTargets = true,
-                command = "clippy",
-            },
         }
     }
 })
+
 vim.lsp.enable("rust_analyzer")
+
+-- Enable TypeScript via the Language Server Protocol (LSP)
+vim.lsp.config('ts_ls', {
+    -- Make sure this is on your path
+    cmd = {'typescript-language-server', '--stdio'},
+    filetypes = {'javascript', 'javascriptreact', 'typescript', 'typescriptreact'},
+    -- This is a hint to tell nvim to find your project root from a file within the tree
+    root_dir = vim.fs.root(0, {'tsconfig.json', 'jsconfig.json', 'package.json', '.git'}),
+    -- Add any other settings here
+    settings = {}
+})
+
+-- Enable the config so it activates for its filetypes
+vim.lsp.enable('ts_ls')

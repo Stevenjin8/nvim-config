@@ -1,20 +1,25 @@
-local success, treesitter = pcall(require, "nvim-treesitter.configs")
+local success, treesitter = pcall(require, "nvim-treesitter")
 if not success then
     print("WARNING: treesitter not loaded.")
     return
 end
 
-treesitter.setup({
-    ensure_installed = { "python", "bash", "rust", "lua" },
-    sync_install = false,
-    highlight = { enable = true, disable = { "tex", "latex" } }, -- use vimtex
-    indent = { enable = true, },
-    folding = { enable = true },
+treesitter.setup({})
+
+local ts_disabled = { tex = true, latex = true } -- use vimtex instead
+
+vim.api.nvim_create_autocmd('FileType', {
+    callback = function(args)
+        local ft = vim.bo[args.buf].filetype
+        if ts_disabled[ft] then return end
+        pcall(vim.treesitter.start)
+        vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+    end,
 })
 
 require 'treesitter-context'.setup {
-    enable = true,         -- Enable this plugin (Can be enabled/disabled later via commands)
-    max_lines = 7,         -- How many lines the window should span. Values <= 0 mean no limit.
+    enable = true,           -- Enable this plugin (Can be enabled/disabled later via commands)
+    max_lines = 7,           -- How many lines the window should span. Values <= 0 mean no limit.
     multiline_threshold = 3, -- Maximum number of lines to show for a single context
     separator = '⎯',
 }

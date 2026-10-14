@@ -72,7 +72,7 @@ vim.opt.listchars = { tab = "  ", trail = "·", nbsp = " " }
 vim.opt.list = true
 
 -- texconceal
-vim.opt.conceallevel = 2
+vim.opt.conceallevel = 0
 vim.api.nvim_set_hl(0, "Conceal", { ctermfg = nil, guitermbg = nil })
 
 -- vimtex options
